@@ -10,3 +10,5 @@ Files in `src` folder:
 * constants.py - constants
 * funcs.py - helper functions
 * main.py - algorithm implementation
+
+Current state handles two-variable functions. To change the number of them, one should add another field to `Chromosome` class in `models.py` and adjust `eval` function in `funcs.py`
