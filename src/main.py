@@ -1,7 +1,6 @@
 import funcs
-import common
-from funcs import generate_chroms
+import constants
 
-chroms = generate_chroms(common.NUM_OF_CHROMS, common.NUM_GEN_RANGE)
+chroms = funcs.generate_chroms(constants.NUM_OF_CHROMS, constants.NUM_GEN_RANGE)
 
 print(chroms)
