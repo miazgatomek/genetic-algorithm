@@ -43,6 +43,6 @@ def perform_crossover(parent1: Chromosome, parent2: Chromosome):
 def perform_mutation(genes_to_change_positions: list[tuple], chroms: list[Chromosome]):
     for positions in genes_to_change_positions:
         new_value = getattr(chroms[positions[0]], constants.CHROM_FIELDS_NAMES[positions[1]])
-        #optional enhancement by selecting which fits better
+        # optional enhancement by selecting which fits better
         new_value += constants.MUTATION_VALUE_CHANGE if bool(np.random.choice([True, False])) else (-constants.MUTATION_VALUE_CHANGE)
         setattr(chroms[positions[0]], constants.CHROM_FIELDS_NAMES[positions[1]], new_value)

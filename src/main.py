@@ -8,18 +8,17 @@ BEST_EVALS_OVER_GENS = [funcs.get_best_eval(CHROMS)]
 
 
 for gen in range(constants.ITERATIONS):
-
     chroms_evals = list(map(lambda chrom: funcs.eval(chrom), CHROMS))
     chroms_fitness = list(map(lambda eval: 1 / eval, chroms_evals))
     total_fitness = sum(chroms_fitness)
     chroms_probs = list(map(lambda fitness: fitness / total_fitness, chroms_fitness))
     cum_probs = np.cumsum(chroms_probs)
 
+
     # get new generation with roulette selection
-    new_chroms = [None] * len(CHROMS)
+    new_chroms = [None] * constants.NUM_OF_CHROMS
 
-
-    for i in range(len(CHROMS)):
+    for i in range(constants.NUM_OF_CHROMS):
         rand = np.random.uniform(0, cum_probs[-1])
         new_chroms[i] = CHROMS[funcs.get_roulette_position(rand, cum_probs)]
 
@@ -27,7 +26,7 @@ for gen in range(constants.ITERATIONS):
     # parents selection
     parent_indexes = []
 
-    for i in range(len(new_chroms)):
+    for i in range(constants.NUM_OF_CHROMS):
         if (np.random.uniform(0, 1) < constants.CROSSOVER_RATE):
             parent_indexes.append(i)
 
@@ -52,8 +51,10 @@ for gen in range(constants.ITERATIONS):
 
     funcs.perform_mutation(genes_to_change_positions, new_chroms)
 
+
     # store generation data
     CHROMS = new_chroms
     BEST_EVALS_OVER_GENS.append(funcs.get_best_eval(CHROMS))
+
 
 print(BEST_EVALS_OVER_GENS)
