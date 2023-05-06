@@ -33,7 +33,16 @@ if len(parent_indexes) >= 1:
         next_index = index + 1 if index != len(parent_indexes) - 1 else 0
         parent1_index = parent_indexes[index]
         parent2_index = parent_indexes[next_index]
-        new_chroms[parent1_index] = funcs.crossover(new_chroms[parent1_index], new_chroms[parent2_index])
+        new_chroms[parent1_index] = funcs.perform_crossover(new_chroms[parent1_index], new_chroms[parent2_index])
 
 
 # mutation
+num_of_genes_to_change = int(constants.MUTATION_RATE * constants.NUM_OF_CHROMS * constants.NUM_OF_GENES)
+genes_to_change_positions = [None] * num_of_genes_to_change
+
+for index in range(num_of_genes_to_change):
+    chrom_index = np.random.randint(0, constants.NUM_OF_CHROMS)
+    gene_index = np.random.randint(0, constants.NUM_OF_GENES)
+    genes_to_change_positions[index] = (chrom_index, gene_index)
+
+funcs.perform_mutation(genes_to_change_positions, new_chroms)

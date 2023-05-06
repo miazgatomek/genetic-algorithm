@@ -1,5 +1,6 @@
 from models import Chromosome
 from dataclasses import fields
+import constants
 import numpy as np
 
 
@@ -7,12 +8,13 @@ def eval(chrom: Chromosome):
     # return pow(chrom.x, 2) + pow(chrom.y, 2) + pow(chrom.z, 2)
     return pow(chrom.x, 2) + pow(chrom.y, 2)
 
+
 def generate_chroms(num_of_chroms: int, range: list[float]):
-    chrom_class_param_count = len(list(fields(Chromosome)))
     lambda_map_to_chroms = lambda arr: Chromosome(*arr)
-    field_values = np.random.uniform(range[0], range[1], [num_of_chroms, chrom_class_param_count])
+    field_values = np.random.uniform(range[0], range[1], [num_of_chroms, constants.NUM_OF_GENES])
 
     return list(map(lambda_map_to_chroms, field_values))
+
 
 def get_roulette_position(rand, cum_probs: list[float]):
     for i in range(len(cum_probs)):
@@ -21,21 +23,28 @@ def get_roulette_position(rand, cum_probs: list[float]):
         elif rand > cum_probs[i] and rand <= cum_probs[i + 1]:
             return i + 1
 
-def crossover(parent1: Chromosome, parent2: Chromosome):
-    chrom_fields = list(map(lambda field: field.name, fields(Chromosome)))
-    max_cut_off_index = len(chrom_fields) - 1
-    cut_off_index = np.random.randint(0, max_cut_off_index)
-    new_attributes = [None] * len(chrom_fields)
 
-    for i in range(len(chrom_fields)):
+def perform_crossover(parent1: Chromosome, parent2: Chromosome):
+    max_cut_off_index = constants.NUM_OF_GENES - 1
+    cut_off_index = np.random.randint(0, max_cut_off_index)
+    new_attributes = [None] * constants.NUM_OF_GENES
+
+    for i in range(constants.NUM_OF_GENES):
         parent = parent1 if i <= cut_off_index else parent2
-        new_attributes[i] = getattr(parent, chrom_fields[i])
+        new_attributes[i] = getattr(parent, constants.CHROM_FIELDS_NAMES[i])
 
     return Chromosome(*new_attributes)
 
-# test1 = Chromosome(3, 2, 1)
-# test2 = Chromosome(30, 20, 10)
 
-# print(crossover(test1, test2))
+def perform_mutation(genes_to_change_positions: list[tuple], chroms: list[Chromosome]):
+    # setattr(person, 'name', 'Adam')
+    # CHROM_FIELDS_NAMES
+    for positions in genes_to_change_positions:
+        new_value = getattr(chroms[positions[0]], constants.CHROM_FIELDS_NAMES[positions[1]])
+        #optional enhancement by selecting which fits better
+        new_value += constants.MUTATION_VALUE_CHANGE if bool(np.random.choice([True, False])) else (-constants.MUTATION_VALUE_CHANGE)
+        setattr(chroms[positions[0]], constants.CHROM_FIELDS_NAMES[positions[1]], new_value)
 
-# print(test)
+# test = Chromosome(1, 2)
+# setattr(test, 'x', 10)
+# print(test.x)
