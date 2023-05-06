@@ -57,6 +57,7 @@ for gen in range(constants.ITERATIONS):
     CHROMS = new_chroms
     BEST_EVALS_OVER_GENS.append(funcs.get_best_eval(CHROMS))
 
+
 # plot results
 x = np.arange(0, constants.ITERATIONS + 1) 
 y = BEST_EVALS_OVER_GENS 
