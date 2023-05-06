@@ -6,3 +6,4 @@ class Chromosome:
     x: float
     y: float
     # z: float
+    

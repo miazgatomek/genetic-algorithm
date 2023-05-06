@@ -1,7 +1,6 @@
 from models import Chromosome
-from dataclasses import fields
-import constants
 import numpy as np
+import constants
 
 
 def eval(chrom: Chromosome):
