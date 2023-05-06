@@ -3,46 +3,57 @@ import constants
 import numpy as np
 
 
-chroms = funcs.generate_chroms(constants.NUM_OF_CHROMS, constants.NUM_GEN_RANGE)
-chroms_evals = list(map(lambda chrom: funcs.eval(chrom), chroms))
-chroms_fitness = list(map(lambda eval: 1 / eval, chroms_evals))
-total_fitness = sum(chroms_fitness)
-chroms_probs = list(map(lambda fitness: fitness / total_fitness, chroms_fitness))
-cum_probs = np.cumsum(chroms_probs)
+CHROMS = funcs.generate_chroms(constants.NUM_OF_CHROMS, constants.NUM_GEN_RANGE)
+BEST_EVALS_OVER_GENS = [funcs.get_best_eval(CHROMS)]
 
 
-# get new generation with roulette selection
-new_chroms = [None] * len(chroms)
+for gen in range(constants.ITERATIONS):
 
-for i in range(len(chroms)):
-    rand = np.random.uniform(0, cum_probs[-1])
-    new_chroms[i] = chroms[funcs.get_roulette_position(rand, cum_probs)]
+    chroms_evals = list(map(lambda chrom: funcs.eval(chrom), CHROMS))
+    chroms_fitness = list(map(lambda eval: 1 / eval, chroms_evals))
+    total_fitness = sum(chroms_fitness)
+    chroms_probs = list(map(lambda fitness: fitness / total_fitness, chroms_fitness))
+    cum_probs = np.cumsum(chroms_probs)
 
-
-# parents selection
-parent_indexes = []
-
-for i in range(len(new_chroms)):
-    if (np.random.uniform(0, 1) < constants.CROSSOVER_RATE):
-        parent_indexes.append(i)
+    # get new generation with roulette selection
+    new_chroms = [None] * len(CHROMS)
 
 
-# crossover if more parents than 1
-if len(parent_indexes) >= 1:
-    for index in range(len(parent_indexes)):
-        next_index = index + 1 if index != len(parent_indexes) - 1 else 0
-        parent1_index = parent_indexes[index]
-        parent2_index = parent_indexes[next_index]
-        new_chroms[parent1_index] = funcs.perform_crossover(new_chroms[parent1_index], new_chroms[parent2_index])
+    for i in range(len(CHROMS)):
+        rand = np.random.uniform(0, cum_probs[-1])
+        new_chroms[i] = CHROMS[funcs.get_roulette_position(rand, cum_probs)]
 
 
-# mutation
-num_of_genes_to_change = int(constants.MUTATION_RATE * constants.NUM_OF_CHROMS * constants.NUM_OF_GENES)
-genes_to_change_positions = [None] * num_of_genes_to_change
+    # parents selection
+    parent_indexes = []
 
-for index in range(num_of_genes_to_change):
-    chrom_index = np.random.randint(0, constants.NUM_OF_CHROMS)
-    gene_index = np.random.randint(0, constants.NUM_OF_GENES)
-    genes_to_change_positions[index] = (chrom_index, gene_index)
+    for i in range(len(new_chroms)):
+        if (np.random.uniform(0, 1) < constants.CROSSOVER_RATE):
+            parent_indexes.append(i)
 
-funcs.perform_mutation(genes_to_change_positions, new_chroms)
+
+    # crossover if more parents than 1
+    if len(parent_indexes) >= 1:
+        for index in range(len(parent_indexes)):
+            next_index = index + 1 if index != len(parent_indexes) - 1 else 0
+            parent1_index = parent_indexes[index]
+            parent2_index = parent_indexes[next_index]
+            new_chroms[parent1_index] = funcs.perform_crossover(new_chroms[parent1_index], new_chroms[parent2_index])
+
+
+    # mutation
+    num_of_genes_to_change = int(constants.MUTATION_RATE * constants.NUM_OF_CHROMS * constants.NUM_OF_GENES)
+    genes_to_change_positions = [None] * num_of_genes_to_change
+
+    for index in range(num_of_genes_to_change):
+        chrom_index = np.random.randint(0, constants.NUM_OF_CHROMS)
+        gene_index = np.random.randint(0, constants.NUM_OF_GENES)
+        genes_to_change_positions[index] = (chrom_index, gene_index)
+
+    funcs.perform_mutation(genes_to_change_positions, new_chroms)
+
+    # store generation data
+    CHROMS = new_chroms
+    BEST_EVALS_OVER_GENS.append(funcs.get_best_eval(CHROMS))
+
+print(BEST_EVALS_OVER_GENS)

@@ -9,6 +9,10 @@ def eval(chrom: Chromosome):
     return pow(chrom.x, 2) + pow(chrom.y, 2)
 
 
+def get_best_eval(chroms: list[Chromosome]):
+    return min(list(map(lambda chrom: eval(chrom), chroms)))
+
+
 def generate_chroms(num_of_chroms: int, range: list[float]):
     lambda_map_to_chroms = lambda arr: Chromosome(*arr)
     field_values = np.random.uniform(range[0], range[1], [num_of_chroms, constants.NUM_OF_GENES])
@@ -37,14 +41,8 @@ def perform_crossover(parent1: Chromosome, parent2: Chromosome):
 
 
 def perform_mutation(genes_to_change_positions: list[tuple], chroms: list[Chromosome]):
-    # setattr(person, 'name', 'Adam')
-    # CHROM_FIELDS_NAMES
     for positions in genes_to_change_positions:
         new_value = getattr(chroms[positions[0]], constants.CHROM_FIELDS_NAMES[positions[1]])
         #optional enhancement by selecting which fits better
         new_value += constants.MUTATION_VALUE_CHANGE if bool(np.random.choice([True, False])) else (-constants.MUTATION_VALUE_CHANGE)
         setattr(chroms[positions[0]], constants.CHROM_FIELDS_NAMES[positions[1]], new_value)
-
-# test = Chromosome(1, 2)
-# setattr(test, 'x', 10)
-# print(test.x)

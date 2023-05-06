@@ -11,4 +11,4 @@ Files in `src` folder:
 * funcs.py - helper functions
 * main.py - algorithm implementation
 
-Current state handles (at least) two-variable functions. To increase the number of them, one should add another field to `Chromosome` class in `models.py` and adjust `eval` function in `funcs.py`
+Current state handles (at least) two-variable functions. To increase the number of them, one should add another field to `Chromosome` class in `models.py` and adjust `eval` and `get_best_eval` functions in `funcs.py`
