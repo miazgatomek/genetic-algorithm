@@ -1,6 +1,7 @@
 from models import Chromosome
 import numpy as np
 import constants
+import dataclasses
 
 
 def eval(chrom: Chromosome):
@@ -47,7 +48,14 @@ def perform_crossover(parent1: Chromosome, parent2: Chromosome):
 
 def perform_mutation(genes_to_change_positions: list[tuple], chroms: list[Chromosome]):
     for positions in genes_to_change_positions:
-        new_value = getattr(chroms[positions[0]], constants.CHROM_FIELDS_NAMES[positions[1]])
-        # optional enhancement by selecting which fits better
-        new_value += constants.MUTATION_VALUE_CHANGE if bool(np.random.choice([True, False])) else (-constants.MUTATION_VALUE_CHANGE)
-        setattr(chroms[positions[0]], constants.CHROM_FIELDS_NAMES[positions[1]], new_value)
+        #generate two new chromosomes with +- mutated values
+        mutated_chrom1 =  dataclasses.replace(chroms[positions[0]])
+        new_value = getattr(mutated_chrom1, constants.CHROM_FIELDS_NAMES[positions[1]]) + constants.MUTATION_VALUE_CHANGE
+        setattr(mutated_chrom1, constants.CHROM_FIELDS_NAMES[positions[1]], new_value)
+        
+        mutated_chrom2 =  dataclasses.replace(chroms[positions[0]])
+        new_value -= 2 * constants.MUTATION_VALUE_CHANGE
+        setattr(mutated_chrom2, constants.CHROM_FIELDS_NAMES[positions[1]], new_value)
+
+        # change the chromosome according to which chromosome produces better eval
+        chroms[positions[0]] = mutated_chrom1 if eval(mutated_chrom1) <= eval(mutated_chrom2) else mutated_chrom2
