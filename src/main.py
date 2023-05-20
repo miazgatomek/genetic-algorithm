@@ -58,6 +58,11 @@ for gen in range(constants.ITERATIONS):
     BEST_EVALS_OVER_GENS.append(funcs.get_best_eval(CHROMS))
 
 
+# indicate best chromosome
+best_chrom = CHROMS[funcs.get_best_eval_position(CHROMS)]
+print(best_chrom, funcs.eval(best_chrom))
+
+
 # plot results
 x = np.arange(0, constants.ITERATIONS + 1) 
 y = BEST_EVALS_OVER_GENS 

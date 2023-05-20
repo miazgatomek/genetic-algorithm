@@ -5,11 +5,17 @@ import constants
 
 def eval(chrom: Chromosome):
     # Booth's function
+    # f(1, 3) = 0
     return pow((chrom.x + 2 * chrom.y - 7), 2) + pow((2 * chrom.x + chrom.y - 5), 2)
 
 
 def get_best_eval(chroms: list[Chromosome]):
     return min(list(map(lambda chrom: eval(chrom), chroms)))
+
+
+def get_best_eval_position(chroms: list[Chromosome]):
+    best_eval = get_best_eval(chroms)
+    return list(map(lambda chrom: eval(chrom), chroms)).index(best_eval)
 
 
 def generate_chroms(num_of_chroms: int, num_of_genes: int, range: list[float]):
@@ -43,8 +49,5 @@ def perform_mutation(genes_to_change_positions: list[tuple], chroms: list[Chromo
     for positions in genes_to_change_positions:
         new_value = getattr(chroms[positions[0]], constants.CHROM_FIELDS_NAMES[positions[1]])
         # optional enhancement by selecting which fits better
-        
-        
-
         new_value += constants.MUTATION_VALUE_CHANGE if bool(np.random.choice([True, False])) else (-constants.MUTATION_VALUE_CHANGE)
         setattr(chroms[positions[0]], constants.CHROM_FIELDS_NAMES[positions[1]], new_value)

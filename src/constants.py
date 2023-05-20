@@ -1,11 +1,12 @@
 from dataclasses import fields
 from models import Chromosome
+from typing import Final
 
-NUM_GEN_RANGE = [-100, 100]
-NUM_OF_CHROMS = 1000
-ITERATIONS = 100
-MUTATION_RATE = 0.3
-MUTATION_VALUE_CHANGE = 0.01
-CROSSOVER_RATE = 0.2
-NUM_OF_GENES = len(list(fields(Chromosome)))
-CHROM_FIELDS_NAMES = list(map(lambda field: field.name, fields(Chromosome)))
+NUM_GEN_RANGE: Final = [-10, 10]
+NUM_OF_CHROMS: Final = 1000
+ITERATIONS: Final = 100
+MUTATION_RATE: Final = 0.3
+MUTATION_VALUE_CHANGE: Final = 0.01
+CROSSOVER_RATE: Final = 0.2
+NUM_OF_GENES: Final = len(list(fields(Chromosome)))
+CHROM_FIELDS_NAMES: Final = list(map(lambda field: field.name, fields(Chromosome)))
