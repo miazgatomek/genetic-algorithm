@@ -4,7 +4,7 @@ import constants
 
 
 def eval(chrom: Chromosome):
-    # Booth's function
+    # Booth's function - search in range [-10, 10]
     # f(1, 3) = 0
     return pow((chrom.x + 2 * chrom.y - 7), 2) + pow((2 * chrom.x + chrom.y - 5), 2)
 
