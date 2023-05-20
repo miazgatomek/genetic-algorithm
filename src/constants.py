@@ -1,8 +1,8 @@
 from dataclasses import fields
 from models import Chromosome
 
-NUM_GEN_RANGE = [-30, 30]
-NUM_OF_CHROMS = 100
+NUM_GEN_RANGE = [-100, 100]
+NUM_OF_CHROMS = 1000
 ITERATIONS = 100
 MUTATION_RATE = 0.3
 MUTATION_VALUE_CHANGE = 0.01
