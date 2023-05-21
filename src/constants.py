@@ -4,7 +4,7 @@ from typing import Final
 
 NUM_GEN_RANGE: Final = [-10, 10]
 NUM_OF_CHROMS: Final = 50
-ITERATIONS: Final = 100
+GENERATIONS: Final = 100
 MUTATION_RATE: Final = 0.3
 MUTATION_VALUE_CHANGE: Final = 0.01
 CROSSOVER_RATE: Final = 0.2
@@ -13,3 +13,7 @@ CHROM_FIELDS_NAMES: Final = list(map(lambda field: field.name, fields(Chromosome
 
 # for tournament selection
 NUM_OF_CONTESTANTS = 10
+
+# for evaluation
+ITERATIONS = 10
+SOLUTION = 0
