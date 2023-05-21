@@ -1,4 +1,5 @@
 from matplotlib import pyplot as plt 
+from alive_progress import alive_bar
 import numpy as np
 import funcs
 import constants
@@ -78,10 +79,7 @@ def genetic_algorithm(show_plot=False):
 
     # indicate best chromosome
     best_chrom = chroms[funcs.get_best_eval_position(chroms)]
-    print(best_chrom, funcs.eval(best_chrom))
 
-
-    # plot results
     if show_plot:
         x = np.arange(0, constants.GENERATIONS + 1)
         y = best_evals_over_gens
@@ -99,9 +97,10 @@ if debug:
 else:
     best_chroms = []
 
-    for i in range(constants.ITERATIONS):
-        best_chroms.append(genetic_algorithm())
-        print(i)
+    with alive_bar(constants.ITERATIONS) as bar:
+        for i in range(constants.ITERATIONS):
+            best_chroms.append(genetic_algorithm())
+            bar()
 
     best_chroms_errors = list(map(lambda chrom: funcs.eval(chrom) - constants.SOLUTION, best_chroms))
     average_error = sum(best_chroms_errors) / len(best_chroms_errors)

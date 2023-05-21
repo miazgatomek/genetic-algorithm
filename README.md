@@ -19,3 +19,4 @@ Name | Version
 Python | 3.11.1
 NumPy | 1.24.3
 Matplotlib | 3.7.1
+alive-progress | 3.1.2
