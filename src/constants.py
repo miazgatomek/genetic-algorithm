@@ -10,3 +10,6 @@ MUTATION_VALUE_CHANGE: Final = 0.01
 CROSSOVER_RATE: Final = 0.2
 NUM_OF_GENES: Final = len(list(fields(Chromosome)))
 CHROM_FIELDS_NAMES: Final = list(map(lambda field: field.name, fields(Chromosome)))
+
+#for tournament selection
+NUM_OF_CONTESTANTS = 10

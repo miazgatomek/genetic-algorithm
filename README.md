@@ -16,6 +16,6 @@ Stack
 
 Name | Version
 --- | ---
-Python | 3.9.6
+Python | 3.11.1
 NumPy | 1.24.3
 Matplotlib | 3.7.1

@@ -2,6 +2,13 @@ from matplotlib import pyplot as plt
 import numpy as np
 import funcs
 import constants
+import argparse
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-s', '--selection')
+selection_type = parser.parse_args().selection
+selection_type = 'roulette' if selection_type is None else selection_type
 
 
 CHROMS = funcs.generate_chroms(constants.NUM_OF_CHROMS, constants.NUM_OF_GENES, constants.NUM_GEN_RANGE)
@@ -16,12 +23,21 @@ for gen in range(constants.ITERATIONS):
     cum_probs = np.cumsum(chroms_probs)
 
 
-    # get new generation with roulette selection
+    # get new generation with specified selection method
     new_chroms = [None] * constants.NUM_OF_CHROMS
 
-    for i in range(constants.NUM_OF_CHROMS):
-        rand = np.random.uniform(0, cum_probs[-1])
-        new_chroms[i] = CHROMS[funcs.get_roulette_position(rand, cum_probs)]
+    match selection_type:
+        case 'roulette':
+            for i in range(constants.NUM_OF_CHROMS):
+                rand = np.random.uniform(0, cum_probs[-1])
+                new_chroms[i] = CHROMS[funcs.get_roulette_position(rand, cum_probs)]
+
+        case 'tournament':
+            for i in range(constants.NUM_OF_CHROMS):
+                contestant_indexes = np.random.randint(constants.NUM_OF_CHROMS, size=constants.NUM_OF_CONTESTANTS)
+                contestant_evals = list(map(lambda index: funcs.eval(CHROMS[index]), contestant_indexes))
+                winner_index = contestant_indexes[contestant_evals.index(min(contestant_evals))]
+                new_chroms[i] = CHROMS[winner_index]
 
 
     # parents selection
