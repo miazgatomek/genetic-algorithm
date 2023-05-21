@@ -4,6 +4,7 @@ import numpy as np
 import funcs
 import constants
 import argparse
+import time
 
 
 parser = argparse.ArgumentParser()
@@ -97,6 +98,8 @@ if debug:
 else:
     best_chroms = []
 
+    start_time = time.time()
+
     with alive_bar(constants.ITERATIONS) as bar:
         for i in range(constants.ITERATIONS):
             best_chroms.append(genetic_algorithm())
@@ -104,6 +107,8 @@ else:
 
     best_chroms_errors = list(map(lambda chrom: funcs.eval(chrom) - constants.SOLUTION, best_chroms))
     average_error = sum(best_chroms_errors) / len(best_chroms_errors)
+
+    print("Time to execute: %s seconds" % (time.time() - start_time))
 
     x = np.arange(1, constants.ITERATIONS + 1)
     y = best_chroms_errors
@@ -113,4 +118,3 @@ else:
     plt.yscale('log')
     plt.plot(x, y)
     plt.show()
-    
