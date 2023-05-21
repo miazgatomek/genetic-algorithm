@@ -108,7 +108,7 @@ else:
 
     x = np.arange(1, constants.ITERATIONS + 1)
     y = best_chroms_errors
-    plt.title('GA errors; selection = %s ; average = %s' % (selection_type, average_error))
+    plt.title('GA errors; selection = %s; average = %s' % (selection_type, average_error))
     plt.xlabel('Run')
     plt.ylabel('Error')
     plt.yscale('log')

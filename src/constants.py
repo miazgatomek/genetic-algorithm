@@ -15,5 +15,5 @@ CHROM_FIELDS_NAMES: Final = list(map(lambda field: field.name, fields(Chromosome
 NUM_OF_CONTESTANTS = 10
 
 # for evaluation
-ITERATIONS = 10
+ITERATIONS = 100
 SOLUTION = 0
