@@ -1,7 +1,7 @@
 Genetic Algorithm
 ======
 
-GA implementation (roulette wheel selection) for finding minimum of mathematical functions.
+GA implementation for finding minimum of mathematical functions.
 
 Files in `src` folder:
 * models.py - data structures declarations
