@@ -80,10 +80,10 @@ print(best_chrom, funcs.eval(best_chrom))
 
 
 # plot results
-x = np.arange(0, constants.ITERATIONS + 1) 
-y = BEST_EVALS_OVER_GENS 
-plt.title("Best Values Over Generations") 
-plt.xlabel("Generation") 
-plt.ylabel("Best Value") 
-plt.plot(x, y) 
+x = np.arange(0, constants.ITERATIONS + 1)
+y = BEST_EVALS_OVER_GENS
+plt.title("Best Values Over Generations")
+plt.xlabel("Generation")
+plt.ylabel("Best Value")
+plt.plot(x, y)
 plt.show()
