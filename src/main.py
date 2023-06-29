@@ -20,20 +20,19 @@ def genetic_algorithm(show_plot=False):
     best_evals_over_gens = [funcs.get_best_eval(chroms)]
 
     for gen in range(constants.GENERATIONS - 1):
-        chroms_evals = list(map(lambda chrom: funcs.eval(chrom), chroms))
-        chroms_fitness = list(map(lambda eval: 1 / eval, chroms_evals))
-        total_fitness = sum(chroms_fitness)
-        chroms_probs = list(map(lambda fitness: fitness / total_fitness, chroms_fitness))
-        cum_probs = np.cumsum(chroms_probs)
-
-
         # get new generation with specified selection method
         new_chroms = [None] * constants.NUM_OF_CHROMS
 
         match selection_type:
             case 'roulette':
                 for i in range(constants.NUM_OF_CHROMS):
+                    chroms_evals = list(map(lambda chrom: funcs.eval(chrom), chroms))
+                    chroms_fitness = list(map(lambda eval: 1 / eval, chroms_evals))
+                    total_fitness = sum(chroms_fitness)
+                    chroms_probs = list(map(lambda fitness: fitness / total_fitness, chroms_fitness))
+                    cum_probs = np.cumsum(chroms_probs)
                     rand = np.random.uniform(0, cum_probs[-1])
+
                     new_chroms[i] = chroms[funcs.get_roulette_position(rand, cum_probs)]
 
             case 'tournament':
@@ -41,6 +40,7 @@ def genetic_algorithm(show_plot=False):
                     contestant_indexes = np.random.randint(constants.NUM_OF_CHROMS, size=constants.NUM_OF_CONTESTANTS)
                     contestant_evals = list(map(lambda index: funcs.eval(chroms[index]), contestant_indexes))
                     winner_index = contestant_indexes[contestant_evals.index(min(contestant_evals))]
+                    
                     new_chroms[i] = chroms[winner_index]
 
 
