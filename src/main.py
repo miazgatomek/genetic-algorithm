@@ -82,7 +82,7 @@ def genetic_algorithm(show_plot=False):
     best_chrom = chroms[funcs.get_best_eval_position(chroms)]
 
     if show_plot:
-        x = np.arange(0, constants.GENERATIONS + 1)
+        x = np.arange(0, constants.GENERATIONS)
         y = best_evals_over_gens
         plt.title('Best Values Over Generations')
         plt.xlabel('Generation')

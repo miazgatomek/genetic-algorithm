@@ -11,11 +11,11 @@ MUTATION_VALUE_CHANGE: Final = 0.01
 CROSSOVER_RATE: Final = 0.2
 
 # for tournament selection
-NUM_OF_CONTESTANTS = 10
+NUM_OF_CONTESTANTS: Final = 10
 
 # for evaluation
-ITERATIONS = 100
-SOLUTION = 0
+ITERATIONS: Final = 100
+SOLUTION: Final = 0
 
 # generic helper constants
 NUM_OF_GENES: Final = len(list(fields(Chromosome)))
